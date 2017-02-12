@@ -1,0 +1,970 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_sp_dev_dc01_d_adminPassword": {
+            "defaultValue": "Passw0rd",
+            "type": "SecureString"
+        },
+        "virtualMachines_sp_dev_sp01_d_adminPassword": {
+            "defaultValue": "Passw0rd",
+            "type": "SecureString"
+        },
+        "virtualMachines_sp_dev_sql01_d_adminPassword": {
+            "defaultValue": "Passw0rd",
+            "type": "SecureString"
+        },
+        "availabilitySets_sp_dev_dc01_d_as01_name": {
+            "defaultValue": "sp-dev-dc01-d-as01",
+            "type": "String"
+        },
+        "availabilitySets_sp_dev_sp01_d_as01_name": {
+            "defaultValue": "sp-dev-sp01-d-as01",
+            "type": "String"
+        },
+        "availabilitySets_sp_dev_sql01_d_as01_name": {
+            "defaultValue": "sp-dev-sql01-d-as01",
+            "type": "String"
+        },
+        "virtualMachines_sp_dev_dc01_d_name": {
+            "defaultValue": "sp-dev-dc01-d",
+            "type": "String"
+        },
+        "virtualMachines_sp_dev_sp01_d_name": {
+            "defaultValue": "sp-dev-sp01-d",
+            "type": "String"
+        },
+        "virtualMachines_sp_dev_sql01_d_name": {
+            "defaultValue": "sp-dev-sql01-d",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_dc01_d_ilb01_name": {
+            "defaultValue": "sp-dev-dc01-d-ilb01",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_sp01_d_ilb01_name": {
+            "defaultValue": "sp-dev-sp01-d-ilb01",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_sql01_d_ilb01_name": {
+            "defaultValue": "sp-dev-sql01-d-ilb01",
+            "type": "String"
+        },
+        "networkInterfaces_sp_dev_dc01_d_nic01_name": {
+            "defaultValue": "sp-dev-dc01-d-nic01",
+            "type": "String"
+        },
+        "networkInterfaces_sp_dev_sp01_d_nic01_name": {
+            "defaultValue": "sp-dev-sp01-d-nic01",
+            "type": "String"
+        },
+        "networkInterfaces_sp_dev_sql01_d_nic01_name": {
+            "defaultValue": "sp-dev-sql01-d-nic01",
+            "type": "String"
+        },
+        "publicIPAddresses_sp_dev_dc01_d_pub01_name": {
+            "defaultValue": "sp-dev-dc01-d-pub01",
+            "type": "String"
+        },
+        "publicIPAddresses_sp_dev_pubip_name": {
+            "defaultValue": "sp-dev-pubip",
+            "type": "String"
+        },
+        "publicIPAddresses_sp_dev_sql01_d_pub01_name": {
+            "defaultValue": "sp-dev-sql01-d-pub01",
+            "type": "String"
+        },
+        "virtualNetworks_sp_dev_vnet_01_name": {
+            "defaultValue": "sp-dev-vnet-01",
+            "type": "String"
+        },
+        "storageAccounts_spdevsa01_name": {
+            "defaultValue": "spdevsadc01",
+            "type": "String"
+        },
+        "storageAccounts_spdevsa02_name": {
+            "defaultValue": "spdevsasp01",
+            "type": "String"
+        },
+        "storageAccounts_spdevsa03_name": {
+            "defaultValue": "spdevsasp02",
+            "type": "String"
+        },
+        "storageAccounts_spdevsa04_name": {
+            "defaultValue": "spdevsasql01",
+            "type": "String"
+        },
+        "storageAccounts_spdevsa05_name": {
+            "defaultValue": "spdevsasql02",
+            "type": "String"
+        },
+        "storageAccounts_spdevsa06_name": {
+            "defaultValue": "spdevsasql03",
+            "type": "String"
+        },
+        "extensions_InstallDomainController_name": {
+            "defaultValue": "sp-dev-dc01-d/InstallDomainController",
+            "type": "String"
+        },
+        "extensions_ConfigureSPServer_name": {
+            "defaultValue": "sp-dev-sp01-d/ConfigureSPServer",
+            "type": "String"
+        },
+        "extensions_CreateSQLServer_name": {
+            "defaultValue": "sp-dev-sql01-d/CreateSQLServer",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_dc01_d_ilb01_id": {
+            "defaultValue": "/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-dc01-d-ilb01/frontendIPConfigurations/lbfe01",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_sp01_d_ilb01_id": {
+            "defaultValue": "/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-sp01-d-ilb01/frontendIPConfigurations/lbfe01",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_sp01_d_ilb01_id_1": {
+            "defaultValue": "/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-sp01-d-ilb01/frontendIPConfigurations/lbfe01",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_sp01_d_ilb01_id_2": {
+            "defaultValue": "/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-sp01-d-ilb01/frontendIPConfigurations/lbfe01",
+            "type": "String"
+        },
+        "loadBalancers_sp_dev_sql01_d_ilb01_id": {
+            "defaultValue": "/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-sql01-d-ilb01/frontendIPConfigurations/lbfe01",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/availabilitySets/sp-dev-dc01-d-as01\".",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_sp_dev_dc01_d_as01_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westeurope",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/availabilitySets/sp-dev-sp01-d-as01\".",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_sp_dev_sp01_d_as01_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westeurope",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/availabilitySets/sp-dev-sql01-d-as01\".",
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[parameters('availabilitySets_sp_dev_sql01_d_as01_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westeurope",
+            "properties": {
+                "platformUpdateDomainCount": 5,
+                "platformFaultDomainCount": 3
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/virtualMachines/sp-dev-dc01-d\".",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_sp_dev_dc01_d_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westeurope",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_sp_dev_dc01_d_as01_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_A2_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2016-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa01_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_sp_dev_dc01_d_name'),'-osdisk.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_sp_dev_dc01_d_name'),'-data-disk1')]",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa01_name'), '.blob.core.windows.net', '/data/DCData-Disk-1.vhd')]"
+                            },
+                            "caching": "None",
+                            "diskSizeGB": 127
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_sp_dev_dc01_d_name')]",
+                    "adminUsername": "azureadmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_sp_dev_dc01_d_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_sp_dev_dc01_d_nic01_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_sp_dev_dc01_d_as01_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_spdevsa01_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_sp_dev_dc01_d_nic01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/virtualMachines/sp-dev-sp01-d\".",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_sp_dev_sp01_d_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westeurope",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_sp_dev_sp01_d_as01_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_A4_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftSharePoint",
+                        "offer": "MicrosoftSharePointServer",
+                        "sku": "2016",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa02_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_sp_dev_sp01_d_name'),'-osdisk.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_sp_dev_sp01_d_name'),'-data-disk1')]",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa03_name'), '.blob.core.windows.net', concat('/data/', parameters('virtualMachines_sp_dev_sp01_d_name'),'-SPData-Disk-1.vhd'))]"
+                            },
+                            "caching": "None",
+                            "diskSizeGB": 1023
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_sp_dev_sp01_d_name')]",
+                    "adminUsername": "azureadmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_sp_dev_sp01_d_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_sp_dev_sp01_d_nic01_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_sp_dev_sp01_d_as01_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_spdevsa02_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_spdevsa03_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_sp_dev_sp01_d_nic01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/virtualMachines/sp-dev-sql01-d\".",
+            "type": "Microsoft.Compute/virtualMachines",
+            "name": "[parameters('virtualMachines_sp_dev_sql01_d_name')]",
+            "apiVersion": "2015-06-15",
+            "location": "westeurope",
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_sp_dev_sql01_d_as01_name'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "Standard_A4_v2"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftSQLServer",
+                        "offer": "SQL2016SP1-WS2016",
+                        "sku": "Standard",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "createOption": "FromImage",
+                        "vhd": {
+                            "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa04_name'), '.blob.core.windows.net', concat('/vhds/', parameters('virtualMachines_sp_dev_sql01_d_name'),'-osdisk.vhd'))]"
+                        },
+                        "caching": "ReadWrite"
+                    },
+                    "dataDisks": [
+                        {
+                            "lun": 0,
+                            "name": "[concat(parameters('virtualMachines_sp_dev_sql01_d_name'),'-data-disk1')]",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa05_name'), '.blob.core.windows.net', '/data/SQLData-Disk-1.vhd')]"
+                            },
+                            "caching": "ReadOnly",
+                            "diskSizeGB": 1023
+                        },
+                        {
+                            "lun": 1,
+                            "name": "[concat(parameters('virtualMachines_sp_dev_sql01_d_name'),'-log-disk1')]",
+                            "createOption": "Empty",
+                            "vhd": {
+                                "uri": "[concat('http', '://', parameters('storageAccounts_spdevsa06_name'), '.blob.core.windows.net', '/logs/SQLLog-Disk-1.vhd')]"
+                            },
+                            "caching": "None",
+                            "diskSizeGB": 1023
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_sp_dev_sql01_d_name')]",
+                    "adminUsername": "azureadmin",
+                    "windowsConfiguration": {
+                        "provisionVMAgent": true,
+                        "enableAutomaticUpdates": true
+                    },
+                    "secrets": [],
+                    "adminPassword": "[parameters('virtualMachines_sp_dev_sql01_d_adminPassword')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_sp_dev_sql01_d_nic01_name'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/availabilitySets', parameters('availabilitySets_sp_dev_sql01_d_as01_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_spdevsa04_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_spdevsa05_name'))]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_spdevsa06_name'))]",
+                "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaces_sp_dev_sql01_d_nic01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-dc01-d-ilb01\".",
+            "type": "Microsoft.Network/loadBalancers",
+            "name": "[parameters('loadBalancers_sp_dev_dc01_d_ilb01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "lbfe01",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_sp_dev_dc01_d_pub01_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "lbbe01"
+                    }
+                ],
+                "loadBalancingRules": [],
+                "probes": [],
+                "inboundNatRules": [
+                    {
+                        "name": "rdp-nat-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_sp_dev_dc01_d_ilb01_id')]"
+                            },
+                            "frontendPort": 3389,
+                            "backendPort": 3389,
+                            "protocol": "Tcp"
+                        }
+                    }
+                ],
+                "outboundNatRules": [],
+                "inboundNatPools": []
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_sp_dev_dc01_d_pub01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-sp01-d-ilb01\".",
+            "type": "Microsoft.Network/loadBalancers",
+            "name": "[parameters('loadBalancers_sp_dev_sp01_d_ilb01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "lbfe01",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_sp_dev_pubip_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "lbbe01"
+                    }
+                ],
+                "loadBalancingRules": [],
+                "probes": [],
+                "inboundNatRules": [
+                    {
+                        "name": "rdp-nat-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_sp_dev_sp01_d_ilb01_id')]"
+                            },
+                            "frontendPort": 3389,
+                            "backendPort": 3389,
+                            "protocol": "Tcp"
+                        }
+                    },
+                    {
+                        "name": "web-nat-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_sp_dev_sp01_d_ilb01_id_1')]"
+                            },
+                            "frontendPort": 80,
+                            "backendPort": 80,
+                            "protocol": "Tcp"
+                        }
+                    },
+                    {
+                        "name": "ca-nat-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_sp_dev_sp01_d_ilb01_id_2')]"
+                            },
+                            "frontendPort": 8080,
+                            "backendPort": 8080,
+                            "protocol": "Tcp"
+                        }
+                    }
+                ],
+                "outboundNatRules": [],
+                "inboundNatPools": []
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_sp_dev_pubip_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/loadBalancers/sp-dev-sql01-d-ilb01\".",
+            "type": "Microsoft.Network/loadBalancers",
+            "name": "[parameters('loadBalancers_sp_dev_sql01_d_ilb01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "frontendIPConfigurations": [
+                    {
+                        "name": "lbfe01",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_sp_dev_sql01_d_pub01_name'))]"
+                            }
+                        }
+                    }
+                ],
+                "backendAddressPools": [
+                    {
+                        "name": "lbbe01"
+                    }
+                ],
+                "loadBalancingRules": [],
+                "probes": [],
+                "inboundNatRules": [
+                    {
+                        "name": "rdp-nat-rule",
+                        "properties": {
+                            "frontendIPConfiguration": {
+                                "id": "[parameters('loadBalancers_sp_dev_sql01_d_ilb01_id')]"
+                            },
+                            "frontendPort": 3389,
+                            "backendPort": 3389,
+                            "protocol": "Tcp"
+                        }
+                    }
+                ],
+                "outboundNatRules": [],
+                "inboundNatPools": []
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/publicIPAddresses', parameters('publicIPAddresses_sp_dev_sql01_d_pub01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/networkInterfaces/sp-dev-dc01-d-nic01\".",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_sp_dev_dc01_d_nic01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.0.4",
+                            "privateIPAllocationMethod": "Static",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_sp_dev_vnet_01_name')), '/subnets/sp-dev-snet01')]"
+                            },
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_dc01_d_ilb01_name')), '/backendAddressPools/lbbe01')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_dc01_d_ilb01_name')), '/inboundNatRules/rdp-nat-rule')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_sp_dev_vnet_01_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_dc01_d_ilb01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/networkInterfaces/sp-dev-sp01-d-nic01\".",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_sp_dev_sp01_d_nic01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.2.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_sp_dev_vnet_01_name')), '/subnets/sp-dev-snet03')]"
+                            },
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sp01_d_ilb01_name')), '/backendAddressPools/lbbe01')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sp01_d_ilb01_name')), '/inboundNatRules/rdp-nat-rule')]"
+                                },
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sp01_d_ilb01_name')), '/inboundNatRules/web-nat-rule')]"
+                                },
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sp01_d_ilb01_name')), '/inboundNatRules/ca-nat-rule')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_sp_dev_vnet_01_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sp01_d_ilb01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/networkInterfaces/sp-dev-sql01-d-nic01\".",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('networkInterfaces_sp_dev_sql01_d_nic01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAddress": "10.0.1.4",
+                            "privateIPAllocationMethod": "Dynamic",
+                            "subnet": {
+                                "id": "[concat(resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_sp_dev_vnet_01_name')), '/subnets/sp-dev-snet02')]"
+                            },
+                            "loadBalancerBackendAddressPools": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sql01_d_ilb01_name')), '/backendAddressPools/lbbe01')]"
+                                }
+                            ],
+                            "loadBalancerInboundNatRules": [
+                                {
+                                    "id": "[concat(resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sql01_d_ilb01_name')), '/inboundNatRules/rdp-nat-rule')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "dnsSettings": {
+                    "dnsServers": []
+                },
+                "enableIPForwarding": false
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworks_sp_dev_vnet_01_name'))]",
+                "[resourceId('Microsoft.Network/loadBalancers', parameters('loadBalancers_sp_dev_sql01_d_ilb01_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/publicIPAddresses/sp-dev-dc01-d-pub01\".",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_sp_dev_dc01_d_pub01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/publicIPAddresses/sp-dev-pubip\".",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_sp_dev_pubip_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4,
+                "dnsSettings": {
+                    "domainNameLabel": "msdndev"
+                }
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/publicIPAddresses/sp-dev-sql01-d-pub01\".",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('publicIPAddresses_sp_dev_sql01_d_pub01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic",
+                "idleTimeoutInMinutes": 4
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Network/virtualNetworks/sp-dev-vnet-01\".",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('virtualNetworks_sp_dev_vnet_01_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "10.0.0.0/16"
+                    ]
+                },
+                "dhcpOptions": {
+                    "dnsServers": [
+                        "10.0.0.4"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "sp-dev-snet01",
+                        "properties": {
+                            "addressPrefix": "10.0.0.0/24"
+                        }
+                    },
+                    {
+                        "name": "sp-dev-snet02",
+                        "properties": {
+                            "addressPrefix": "10.0.1.0/24"
+                        }
+                    },
+                    {
+                        "name": "sp-dev-snet03",
+                        "properties": {
+                            "addressPrefix": "10.0.2.0/24"
+                        }
+                    }
+                ]
+            },
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/devsprg/providers/Microsoft.Storage/storageAccounts/spdevsadc01\".",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_spdevsa01_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/devsprg/providers/Microsoft.Storage/storageAccounts/spdevsasp01\".",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_spdevsa02_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+                {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/devsprg/providers/Microsoft.Storage/storageAccounts/spdevsasp02\".",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_spdevsa03_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+                {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/devsprg/providers/Microsoft.Storage/storageAccounts/spdevsasql01\".",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_spdevsa04_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+                        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/devsprg/providers/Microsoft.Storage/storageAccounts/spdevsasql02\".",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_spdevsa05_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+                        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/devsprg/providers/Microsoft.Storage/storageAccounts/spdevsasql03\".",
+            "type": "Microsoft.Storage/storageAccounts",
+            "sku": {
+                "name": "Standard_LRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "name": "[parameters('storageAccounts_spdevsa06_name')]",
+            "apiVersion": "2016-01-01",
+            "location": "westeurope",
+            "tags": {},
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/virtualMachines/sp-dev-dc01-d/extensions/InstallDomainController\".",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[parameters('extensions_InstallDomainController_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.20",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "ModulesUrl": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm/dsc/CreateADPDC.ps1.zip",
+                    "wmfVersion": "4.0",
+                    "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+                    "Properties": {
+                        "DomainName": "msdndev.local",
+                        "AdminCreds": {
+                            "UserName": "azureadmin",
+                            "Password": "PrivateSettingsRef:Passw0rd"
+                        }
+                    }
+                },
+                "protectedSettings": {}
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_sp_dev_dc01_d_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/virtualMachines/sp-dev-sp01-d/extensions/ConfigureSPServer\".",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[parameters('extensions_ConfigureSPServer_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.20",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "ModulesUrl": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm/dsc/ConfigureSharePointServer.ps1.zip",
+                    "wmfVersion": "4.0",
+                    "ConfigurationFunction": "ConfigureSharePointServer.ps1\\ConfigureSharePointServer",
+                    "Properties": {
+                        "DomainName": "msdndev.local",
+                        "AdminCreds": {
+                            "UserName": "azureadmin",
+                            "Password": "PrivateSettingsRef:Passw0rd"
+                        },
+                        "SharePointSetupUserAccountcreds": {
+                            "UserName": "spinstall",
+                            "Password": "PrivateSettingsRef:Passw0rd"
+                        },
+                        "SharePointFarmAccountcreds": {
+                            "UserName": "sp_farm",
+                            "Password": "PrivateSettingsRef:Alegri123"
+                        },
+                        "SharePointFarmPassphrasecreds": {
+                            "UserName": "ignore",
+                            "Password": "PrivateSettingsRef:SharePoint2013"
+                        },
+                        "DatabaseName": "SP_Config",
+                        "AdministrationContentDatabaseName": "SP_Admin",
+                        "DatabaseServer": "sp-dev-sql01-d.msdndev.local",
+                        "Configuration": "{\"roles\":[{\"type\":\"application\",\"properties\":{\"fqdn\":\"msdndev.westeurope.cloudapp.azure.com\",\"port\":8080}},{\"type\":\"web\",\"properties\":{\"webApp\":{\"name\":\"sp-dev\",\"applicationPool\":\"sp-dev AppPool\",\"applicationPoolAccount\":\"sp_farm\",\"url\":\"http://msdndev.westeurope.cloudapp.azure.com\",\"port\":80,\"hostHeader\":\"msdndev.westeurope.cloudapp.azure.com\",\"databaseName\":\"SP_Content\"},\"site\":{\"name\":\"sp-dev\",\"template\":\"STS#0\",\"url\":\"http://msdndev.westeurope.cloudapp.azure.com\",\"ownerAliasDomain\":\"msdndev.local\",\"ownerAliasUserName\":\"sp_farm\",\"secondaryOwnerAliasDomain\":\"msdndev.local\",\"secondaryOwnerAliasUserName\":\"azureadmin\"}}}],\"configureForHa\":\"False\",\"loadBalancedSetProbePort\":0}"
+                    }
+                },
+                "protectedSettings": {}
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_sp_dev_sp01_d_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalisiert aus Ressource \"/subscriptions/642fc136-9247-4936-b32f-897197eeb1a7/resourceGroups/DEVSPRG/providers/Microsoft.Compute/virtualMachines/sp-dev-sql01-d/extensions/CreateSQLServer\".",
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "name": "[parameters('extensions_CreateSQLServer_name')]",
+            "apiVersion": "2016-03-30",
+            "location": "westeurope",
+            "properties": {
+                "publisher": "Microsoft.Powershell",
+                "type": "DSC",
+                "typeHandlerVersion": "2.20",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "ModulesUrl": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/sharepoint-three-vm/dsc/ConfigureSqlServer.ps1.zip",
+                    "wmfVersion": "4.0",
+                    "ConfigurationFunction": "ConfigureSqlServer.ps1\\ConfigureSqlServer",
+                    "Properties": {
+                        "DomainName": "msdndev.local",
+                        "AdminCreds": {
+                            "UserName": "azureadmin",
+                            "Password": "PrivateSettingsRef:Passw0rd"
+                        },
+                        "SqlServerServiceAccountcreds": {
+                            "UserName": "sqlservice",
+                            "Password": "PrivateSettingsRef:Alegri123"
+                        },
+                        "SharePointSetupUserAccountcreds": {
+                            "UserName": "spinstall",
+                            "Password": "PrivateSettingsRef:Passw0rd"
+                        }
+                    }
+                },
+                "protectedSettings": {}
+            },
+            "resources": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', parameters('virtualMachines_sp_dev_sql01_d_name'))]"
+            ]
+        }
+    ]
+}
