@@ -67,6 +67,7 @@
 # Navigate to scripts location path
     Write-Host "Setting the working path ..."
     $FolderPath = [Environment]::GetFolderPath("Userprofile")
+    #$TargetDir = "$FolderPath\Downloads\Azure\Osram Migration\JSON\CreateSP\Small\Templates"
     $TargetDir = "C:\Users\sstaszek\Downloads\Azure\Osram Migration\JSON\CreateSP\Small\Templates"
 
     Set-Location -Path $TargetDir

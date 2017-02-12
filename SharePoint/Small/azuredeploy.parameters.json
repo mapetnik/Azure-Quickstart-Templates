@@ -1,0 +1,84 @@
+﻿{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "storageAccountType": {
+            "value": "Standard_LRS"
+        },
+        "adminUsername": {
+            "value": "azureadmin"
+        },
+        "adminPassword": {
+            "value": "Passw0rd"
+        },
+        "sqlServerServiceAccountUserName": {
+            "value": "sqlservice"
+        },
+        "sqlServerServiceAccountPassword": {
+            "value": "Alegri123"
+        },
+        "sharePointSetupUserAccountUserName": {
+            "value": "spinstall"
+        },
+        "sharePointSetupUserAccountPassword": {
+            "value": "Passw0rd"
+        },
+        "sharePointFarmAccountUserName": {
+            "value": "sp_farm"
+        },
+        "sharePointFarmAccountPassword": {
+            "value": "Alegri123"
+        },
+        "sharePointFarmPassphrasePassword": {
+            "value": "SharePoint2013"
+        },
+        "sppublicIPAddressName": {
+            "value": "sp-dev-pubip"
+        },
+        "sharepointFarmName": {
+            "value": "sp-dev"
+        },
+        "domainName": {
+            "value": "algdev.local"
+        },
+        "spDNSPrefix": {
+            "value": "algdev"
+        },
+        "storageAccountNamePrefix": {
+            "value": "algdevsa0"
+        },
+        "spSiteTemplateName": {
+            "value": "STS#0"
+        },
+        "virtualNetworkName": {
+            "value": "sp-dev-vnet01"
+        },
+        "virtualNetworkAddressRange": {
+            "value": "10.0.0.0/16"
+        },
+        "adSubnet": {
+            "value": "10.0.0.0/24"
+        },
+        "sqlSubnet": {
+            "value": "10.0.1.0/24"
+        },
+        "spSubnet": {
+            "value": "10.0.2.0/24"
+        },
+        "adNicIPAddress": {
+            "value": "10.0.0.4"
+        },
+        "location": {
+            "value": "West Europe"
+        },
+         "adVMSize": {
+            "value": "Standard_A2m_v2"
+        },
+        "sqlVMSize": {
+            "value": "Standard_A2m_v2"
+        },
+        "spVMSize": {
+            "value": "Standard_A2m_v2"
+        }
+    }
+}
