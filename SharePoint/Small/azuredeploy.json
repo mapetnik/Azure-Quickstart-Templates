@@ -146,7 +146,7 @@
         "artifactsBaseUrl": "",
         "description": "URL to acquire other templates"
       },
-      "defaultValue": "http://json-templates.msdn.local/sites/master/Shared%20Documents/azure-quickstart-templates/SharePoint/small"
+      "defaultValue": "https://github.com/mapetnik/Azure-Quickstart-Templates/tree/master/SharePoint/Small"
     },
     "spPublicIPNewOrExisting": {
       "type": "string",
